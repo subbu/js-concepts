@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Closures</title>
+</head>
+<body>
+<mark>click on links</mark>
+<fieldset>
+	<legend>Set 1. Unexpected behaviour</legend>
+	<a href="#" class="set1">link 1</a> | 
+	<a href="#" class="set1">link 2</a> | 
+	<a href="#" class="set1">link 3</a> | 
+	<a href="#" class="set1">link 4</a> | 
+	<a href="#" class="set1">link 5</a>
+	<p id="set1_status"></p>
+</fieldset>
+
+<fieldset>
+	<legend>Set 2. Correct behaviour</legend>
+	<a href="#" class="set2">link 1</a> | 
+	<a href="#" class="set2">link 2</a> | 
+	<a href="#" class="set2">link 3</a> | 
+	<a href="#" class="set2">link 4</a> | 
+	<a href="#" class="set2">link 5</a>
+	<p id="set2_status"></p>
+</fieldset>
+
+<script type="text/javascript">
+	//Explanations http://benalman.com/news/2010/11/immediately-invoked-function-expression/
+
+	var set1Links = document.querySelectorAll("a.set1"),
+		set1Status = document.querySelector("#set1_status");
+
+	for (var i = 0; i < set1Links.length; i++) {
+		set1Links[i].addEventListener("click", function(e) {
+			// This function body is executed after the for loop reaches its end and when the link is clicked.
+			// At which stage value of i was 5.
+			e.preventDefault();
+			set1Status.innerHTML = "Clicked on " + e.target.innerHTML + " Value of i is " + i;
+		}, false);
+	}
+
+	var set2Links = document.querySelectorAll(".set2");
+		set2Status = document.querySelector("#set2_status");
+
+	for (var j = 0; j < set2Links.length; j++) {
+		// Create a closure and arrest the value of j and link it to its associated link
+		(function(j) {
+			set2Links[j].addEventListener("click", function(e) {
+				e.preventDefault();
+				set2Status.innerHTML = "Clicked on " + e.target.innerHTML + " Value of j is " + j;
+			}, false);
+		})(j);
+	}
+</script>
+</body>
+</html>
