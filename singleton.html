@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Singleton</title>
+</head>
+<body>
+See console
+<script type="text/javascript">
+	// Method 1: Using functions
+	function Singleton(options) {
+		var options = options || {};
+
+		var self = this;
+		function init() {
+			this.x = options.x;
+			this.z = options.z;
+			return {
+				m1: function() {
+					console.log("x:", options.x, "z:", options.z);
+				}
+			}
+		}
+
+		if (!Singleton.prototype.instance) {
+			Singleton.prototype.instance = init();
+		}
+		return Singleton.prototype.instance;
+	}
+
+	console.log("Singleton method 1: Using functions");
+	var s1 = new Singleton({x: "x", z: "z"});
+	s1.m1();
+	var s2 = new Singleton({x: "y"});
+	s2.m1();
+
+	// Method 2: Using module pattern
+
+	var Singleton2 = (function(){
+		var instance;
+		function init() {
+			var x = "x";
+			var z = "z";
+
+			return {
+				m1: function() {
+					console.log("x:", x, "z:", z);
+				}
+			}
+		};
+
+		return {
+			getInstance: function() {
+				if (!instance) instance = init();
+				return instance;
+			}
+		}
+
+		
+	})();
+
+	console.log("Singleton method 2. Using module pattern");
+	var s3 = Singleton2.getInstance();
+	s3.m1();
+	var s4 = Singleton2.getInstance();
+	s4.m1();
+</script>
+</body>
+</html>
