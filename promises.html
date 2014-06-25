@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Promises</title>
+</head>
+<body>
+<button>click</button>
+<script type="text/javascript">
+	function get(url) {
+		return new Promise(function(resolve, reject) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', url);
+			
+			xhr.onload = function() {
+				if (xhr.status == 200) {
+					resolve(xhr.response);
+				} else {
+					reject(xhr.statusText);
+				}
+			}
+
+			xhr.onerror = function() {
+				reject(Error("Error"));
+			}
+			xhr.send();
+		});
+	}
+
+	document.getElementsByTagName("button")[0].addEventListener("click", function(e) {
+		get('projects.json').then(function(r) {
+			console.log(r)
+		})
+	})
+</script>
+</body>
+</html>
