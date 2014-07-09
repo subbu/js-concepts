@@ -3,8 +3,9 @@
 <head>
 	<title>Promises</title>
 </head>
-<body>
-<button>click</button>
+<body>open console to see output
+<button>simple promise</button>
+<button>chain response</button>
 <script type="text/javascript">
 	function get(url) {
 		return new Promise(function(resolve, reject) {
@@ -29,7 +30,15 @@
 	document.getElementsByTagName("button")[0].addEventListener("click", function(e) {
 		get('projects.json').then(function(r) {
 			console.log(r)
-		})
+		});
+	})
+
+	document.getElementsByTagName("button")[1].addEventListener("click", function(e) {
+		get('projects.json').then(function(r) {
+			return JSON.parse(r);
+		}).then(function(r) {
+			console.log(r)
+		});
 	})
 </script>
 </body>
